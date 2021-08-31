@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'pages.apps.PagesConfig',
     'petroleum.apps.PetroleumConfig',
     'django.contrib.admin',
     'django.contrib.auth',
