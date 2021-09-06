@@ -10,6 +10,11 @@ class Borrower(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_by")
     remind_me_at = models.DateField(null=True, blank=True)
 
+    def __str__(self):
+        return self.nick_name
+
+
+
     class Meta:
         db_table = "borrowers"
 
@@ -17,8 +22,8 @@ class Borrower(models.Model):
 
 # specify transaction_type
 TRANSACTION_CHOICES = (
-    (1, "credit"),
-    (2, "debit"),
+    ("credit", "credit"),
+    ("debit", "debit"),
 )
 
 class Transaction(models.Model):
