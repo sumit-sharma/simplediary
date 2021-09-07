@@ -10,10 +10,8 @@ class BorrowerAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "nick_name", "transaction_link"]
 
     def transaction_link(self, request):
-        # url =reverse("admin:book_author_change", args=[book.author.id])
-        # url =reverse("admin:lend_transaction_changelist", kwargs={'borrower__id': str(request.id)})
-        url =reverse("admin:lend_transaction_changelist")
-        # url = "?borrower_id="+str(request.id)
+        url = reverse("admin:lend_transaction_changelist")
+        url += "?borrower__id="+str(request.id)
         link = '<a href="%s">%s</a>' % (url, "Transaction")
         return mark_safe(link)
 
