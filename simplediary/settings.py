@@ -41,6 +41,7 @@ ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 # Application definition
 
 INSTALLED_APPS = [
+    'tasks.apps.TasksConfig',
     'lend.apps.LendConfig',
     'pages.apps.PagesConfig',
     'petroleum.apps.PetroleumConfig',
@@ -152,4 +153,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 
-LOGIN_REDIRECT_URL =  '/'
+LOGIN_REDIRECT_URL =  '/home'

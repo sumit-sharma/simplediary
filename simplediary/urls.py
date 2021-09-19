@@ -24,4 +24,5 @@ urlpatterns = [
     path('petroleum/', include('petroleum.urls')),
     # login and registration
     path('login', views.LoginView.as_view(), name='login'),
+    path('home', include('accounts.urls')),
 ]
