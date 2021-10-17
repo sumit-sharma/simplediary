@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.urls import path
 from . import views
+from .views import TaskCreateFormView, TaskUpdateView
 
 urlpatterns = [
     path('', views.task_list, name='task_list'),
+    path('create_task/', TaskCreateFormView.as_view(), name='task_create'),
+    path('edit_task/<int:pk>', TaskUpdateView.as_view(), name='task_edit')
 ]

@@ -20,6 +20,7 @@
                     <th scope="col">Advance amount</th>
                     <th scope="col">Pending amount</th>
                     <th scope="col">Remark</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +30,13 @@
                     <td>{{ task.customer_name }}</td>
                     <td>{{ task.contact_details }}</td>
                     <td>{{ task.description }}</td>
+                    <td>{{ task.work_status }}</td>
+                    <td>{{ task.amount_status }}</td>
+                    <td>{{ task.Total_amount }}</td>
+                    <td>{{ task.advance_amount }}</td>
+                    <td>{{ task.pending_amount }}</td>
+                    <td>{{ task.remark }}</td>
+                    <td> <a href="/tasks/edit_task/{{ task.id }}">Edit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
