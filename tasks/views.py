@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render, HttpResponse
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import Task
@@ -31,16 +31,15 @@ class TaskUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-
-
-
-
 @login_required
 def task_list(request):
     Tasks = Task.objects.all()
-    paginator = Paginator(Tasks, 10)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {'page_obj': page_obj}
-    return render(request, 'pages/task_list.html', context)
+    work_status = request.GET.get('work_status')
+    if(work_status):
+        Tasks = Tasks.filter(work_status=work_status)
 
+    paginator = Paginator(Tasks, 10)
+    tasks = paginator.get_page(page_number)
+    context = {'tasks': tasks}
+    return render(request, 'pages/task_list.html', context)

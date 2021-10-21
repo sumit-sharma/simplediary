@@ -4,8 +4,36 @@
 {% block main %}
 
 <div class="card">
-    <div class="card-body">
+    <div class="card-header">
         <h4 class="card-title">All Tasks </h4>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="row align-items-center g-3">
+                <div class="col-auto">
+                    <label class="visually-hidden" for="inputEmail">Customer Name</label>
+                    <input type="search" class="form-control" id="customer_name" name="customer_name" placeholder="Customer Name">
+                </div>
+                <div class="col-auto">
+                    <label class="visually-hidden" for="work_status">Work Status</label>
+                    <select class="form-select" id="work_status" name="work_status">
+                        <option value="">Select</option>
+                        <option {% if  request.GET.work_status == 'pending' %} selected {% endif %}>pending</option>
+                        <option {% if request.GET.work_status == 'completed' %} selected {% endif %}>completed</option>
+                    </select>
+                </div>
+                <!-- <div class="col-auto">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkRemember">
+                        <label class="form-check-label" for="checkRemember">Remember me</label>
+                    </div>
+                </div> -->
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+
         <table class="table">
             <thead>
                 <tr>
@@ -24,8 +52,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for task in page_obj %}
+                {% for task in tasks %}
+                {% if task.work_status == "pending" %}
+                <tr style="background: red;:">
+                {% else %}
                 <tr>
+                {% endif %}
                     <th scope="row">{{ task.date }}</th>
                     <td>{{ task.customer_name }}</td>
                     <td>{{ task.contact_details }}</td>
@@ -44,18 +76,18 @@
 
         <div class="pagination">
             <span class="step-links">
-                {% if page_obj.has_previous %}
+                {% if tasks.has_previous %}
                 <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="?page={{ tasks.previous_page_number }}">previous</a>
                 {% endif %}
 
                 <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    Page {{ tasks.number }} of {{ tasks.paginator.num_pages }}.
                 </span>
 
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% if tasks.has_next %}
+                <a href="?page={{ tasks.next_page_number }}">next</a>
+                <a href="?page={{ tasks.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
