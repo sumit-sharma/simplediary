@@ -16,7 +16,9 @@ class TaskCreateFormView(FormView):
     success_url = "/tasks"
 
     def form_valid(self, form):
-        form.save()
+        task =  form.save(commit=False)
+        task.created_by_id = self.request.user.id
+        task.save()
         return super().form_valid(form)
 
 
