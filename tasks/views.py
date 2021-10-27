@@ -35,7 +35,7 @@ class TaskUpdateView(UpdateView):
 
 @login_required
 def task_list(request):
-    Tasks = Task.objects.all()
+    Tasks = Task.objects.all().filter(created_by_id=request.user.id)
     page_number = request.GET.get('page')
     work_status = request.GET.get('work_status')
     if(work_status):
