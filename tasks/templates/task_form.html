@@ -3,9 +3,55 @@
 
 {% block main %}
 
-    <form method="POST">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <input type="submit" class="btn btn-primary" value="Save record" />
-    </form>
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div id="div_id_date" class="mb-3 col">
+            {{ form.date|as_crispy_field }}
+        </div>
+        <div id="div_id_customer_name" class="col">
+            {{ form.customer_name|as_crispy_field }}
+
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div id="div_id_contact_details" class="mb-3 col">
+            {{ form.contact_details|as_crispy_field }}
+        </div>
+        <div id="div_id_description" class="mb-3 col">
+            <label for="id_description" class="form-label"> Description </label>
+            <textarea name="description" rows="1" class="textarea form-control" id="id_description"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div id="div_id_work_status" class="mb-3 col">
+            {{ form.work_status|as_crispy_field }}
+        </div>
+        <div id="div_id_amount_status" class="mb-3 col">
+            {{ form.amount_status|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div id="div_id_total_amount" class="mb-3 col">
+            {{ form.total_amount|as_crispy_field }}
+        </div>
+        <div id="div_id_advance_amount" class="mb-3 col">
+            {{ form.advance_amount|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div id="div_id_pending_amount" class="mb-3 col">
+            {{ form.pending_amount|as_crispy_field }}
+        </div>
+        <div id="div_id_remark" class="mb-3 col">
+            <label for="id_remark" class="form-label"> Remark </label>
+            <textarea name="remark" rows="1" class="textarea form-control" id="id_remark"></textarea>
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Save record">
+
+</form>
 {% endblock %}
