@@ -7,9 +7,12 @@
     {% csrf_token %}
     <div class="row">
         <div id="div_id_date" class="mb-3 col">
-            {{ form.date|as_crispy_field }}
+                <label for="id_date" class="form-label requiredField">
+                    Date<span class="asteriskField">*</span>
+                </label>
+                <input type="date" name="date" class="dateinput form-control" required id="id_date">
         </div>
-        <div id="div_id_customer_name" class="col">
+        <div id="div_id_customer_name" class="mb-3 col">
             {{ form.customer_name|as_crispy_field }}
 
         </div>
