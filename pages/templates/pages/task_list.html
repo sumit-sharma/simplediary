@@ -11,7 +11,7 @@
                 
             </div>
             <div class="col">
-                <a href="{% url  'down_task_list_csv' %}" class="btn btn-outline-success float-end">Download</a>
+                <a href="{% url  'down_task_list_csv' %}" class="btn btn-outline-success float-end">Download CSV/Excel</a>
             </div>
         </div>
 
@@ -26,7 +26,7 @@
                 <div class="col-auto">
                     <label class="visually-hidden" for="work_status">Work Status</label>
                     <select class="form-select" id="work_status" name="work_status">
-                        <option value="">Select</option>
+                        <option value="">Select Work Status</option>
                         <option {% if  request.GET.work_status == 'pending' %} selected {% endif %}>pending</option>
                         <option {% if request.GET.work_status == 'completed' %} selected {% endif %}>completed</option>
                     </select>

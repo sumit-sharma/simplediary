@@ -5,3 +5,13 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
+// 
+ $("#id_advance_amount").keyup(function(event) {
+    advance_amount = parseFloat($(this).val());
+    console.log(advance_amount)
+    total_amount = parseFloat($("#id_total_amount").val());
+    if( typeof(advance_amount)==="number" &&  typeof(advance_amount) === "number") {
+      $("#id_pending_amount").val(total_amount - advance_amount);
+
+    }
+ });
