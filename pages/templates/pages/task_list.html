@@ -5,7 +5,16 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">All Tasks </h4>
+        <div class="row">
+            <div class="col">
+                <h4 class="card-title">All Tasks </h4>
+                
+            </div>
+            <div class="col">
+                <a href="{% url  'down_task_list_csv' %}" class="btn btn-outline-success float-end">Download</a>
+            </div>
+        </div>
+
     </div>
     <div class="card-body">
         <form>
@@ -31,8 +40,11 @@
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </div>
+                <!-- <div class="col-auto"> -->
+                <!-- </div> -->
             </div>
         </form>
+        
 
         <table class="table">
             <thead>
