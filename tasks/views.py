@@ -6,6 +6,7 @@ from django.views.generic.edit import FormView, UpdateView
 from .forms import TaskForm
 import csv
 import time
+from django.db.models import Sum
 
 # from django.urls import reverse
 
@@ -14,7 +15,8 @@ import time
 
 class TaskCreateFormView(FormView):
     model = Task
-    template_name = 'task_form.html'
+    template_name = "task_form.html"
+    extra_context = {"pageName": "Create a Task"}
     form_class = TaskForm
     success_url = "/tasks"
 
@@ -27,9 +29,10 @@ class TaskCreateFormView(FormView):
 
 class TaskUpdateView(UpdateView):
     model = Task
-    template_name = 'task_form.html'
+    template_name = "task_form.html"
     form_class = TaskForm
     success_url = "/tasks"
+    extra_context = {"pageName": "Edit Task"}
 
     def form_valid(self, form):
         form.save()
@@ -39,34 +42,60 @@ class TaskUpdateView(UpdateView):
 @login_required
 def task_list(request):
     Tasks = Task.objects.all().filter(created_by_id=request.user.id)
-    page_number = request.GET.get('page')
-    work_status = request.GET.get('work_status')
-    if(work_status):
-        Tasks = Tasks.filter(work_status=work_status)
+    page_number = request.GET.get("page")
 
+    all_task_count = Tasks.count()
+    # count total pending taks
+    count_pending_work = Tasks.filter(work_status="pending").count()
+    # sum of pending task amount
+    total_pending_amount = Tasks.filter(work_status="pending").aggregate(
+        Sum("pending_amount")
+    )
+    # count total pending taks
+    advance_amount = Tasks.filter(work_status="pending").filter(
+        amount_status="completed"
+    )
+
+    work_status = request.GET.get("work_status")
+    if work_status:
+        Tasks = Tasks.filter(work_status=work_status)
+    amount_status = request.GET.get("amount_status")
+    if amount_status:
+        Tasks = Tasks.filter(amount_status=amount_status)
     paginator = Paginator(Tasks, 10)
     tasks = paginator.get_page(page_number)
-    context = {'tasks': tasks}
-    return render(request, 'pages/task_list.html', context)
+    context = {
+        "tasks": tasks,
+        "pageName": "Task List",
+        "allTaskCount": all_task_count,
+        "countPendingWork": count_pending_work,
+        "totalPendingAmount": total_pending_amount,
+        "advanceAmount": advance_amount,
+    }
+    return render(request, "pages/task_list.html", context)
 
 
 @login_required
 def download_task_list(request):
     response = HttpResponse(
-        content_type='text/csv',
-        headers={'Content-Disposition': 'attachment; filename="sa_' +str(time.time())+ '.csv"'},
+        content_type="text/csv",
+        headers={
+            "Content-Disposition": 'attachment; filename="sa_'
+            + str(time.time())
+            + '.csv"'
+        },
     )
     Tasks = Task.objects.all().filter(created_by_id=request.user.id)
-    work_status = request.GET.get('work_status')
-    if(work_status):
+    work_status = request.GET.get("work_status")
+    if work_status:
         Tasks = Tasks.filter(work_status=work_status)
     # page_number = request.GET.get('page')
     # paginator = Paginator(Tasks, 10)
     # tasks = paginator.get_page(page_number)
 
     writer = csv.writer(response)
-    writer.writerow(['Customer Name', 'Description'])
-    tsks = Tasks.values_list('customer_name', 'description')
+    writer.writerow(["Customer Name", "Description"])
+    tsks = Tasks.values_list("customer_name", "description")
     for tsk in tsks:
         writer.writerow(tsk)
     return response

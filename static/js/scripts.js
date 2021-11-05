@@ -11,7 +11,13 @@
     console.log(advance_amount)
     total_amount = parseFloat($("#id_total_amount").val());
     if( typeof(advance_amount)==="number" &&  typeof(advance_amount) === "number") {
-      $("#id_pending_amount").val(total_amount - advance_amount);
+      let pending_amount =  total_amount - advance_amount
+      $("#id_pending_amount").val(pending_amount);
+      if(pending_amount == 0) {
+        $("#id_amount_status").val("completed");
+      }else{
+        $("#id_amount_status").val("pending");
+      }
 
     }
  });

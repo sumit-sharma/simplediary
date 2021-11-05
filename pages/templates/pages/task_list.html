@@ -2,109 +2,196 @@
 {% load crispy_forms_tags %}
 
 {% block main %}
+<div class="row mb-3">
+   <div class="col-xl col-md-6 col-12">
+      <a href="{% url 'task_list' %}">
+         <div class="card">
+            <div class="card-body">
+               <div class="align-items-center row">
+                  <div class="col">
+                     <h6 class="text-uppercase text-muted mb-2">Total Tasks</h6>
+                     <span class="h2 mb-0">{{ allTaskCount }}</span><span
+                        class="mt-n1 ms-2 badge bg-success-soft">+3.5%</span>
+                  </div>
+                  <div class="col-auto">
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </a>
+   </div>
+   <div class="col-xl col-md-6 col-12">
+      <a href="/tasks?work_status=pending">
+         <div class="card">
+            <div class="card-body">
+               <div class="align-items-center row">
+                  <div class="col">
+                     <h6 class="text-uppercase text-muted mb-2"># Pending Tasks</h6>
+                     <span class="h2 mb-0">{{ countPendingWork }}</span>
+                  </div>
+                  <div class="col-auto">
+                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase text-muted">
+                        <g>
+                           <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </g>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </a>
+   </div>
+   <div class="col-xl col-md-6 col-12">
+      <div class="card">
+         <div class="card-body">
+            <div class="align-items-center row">
+               <div class="col">
+                  <h6 class="text-uppercase text-muted mb-2">Total Pending Amount</h6>
+                  <span class="h2 mb-0">{{ totalPendingAmount.pending_amount__sum }}</span>
+               </div>
+               <div class="col-auto">
+                  <div class="chart chart-sparkline">
+                     <canvas role="img" height="35" width="75"
+                        style="display: block; box-sizing: border-box; height: 35px; width: 75px;"></canvas>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-xl col-md-6 col-12">
+      <a href="/tasks?work_status=pending&amount_status=completed">
+         <div class="card">
+            <div class="card-body">
+               <div class="align-items-center row">
+                  <div class="col">
+                     <h6 class="text-uppercase text-muted mb-2">Advance Amount</h6>
+                     <span class="h2 mb-0">{{ advanceAmount.count }}</span>
+                  </div>
+                  <div class="col-auto">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </a>
+   </div>
+
+</div>
 
 <div class="card">
-    <div class="card-header">
-        <div class="row">
-            <div class="col">
-                <h4 class="card-title">All Tasks </h4>
-                
+   <div class="card-header">
+      <div class="row">
+         <div class="col">
+            <h4 class="card-title">All Tasks </h4>
+
+         </div>
+         <div class="col">
+            <a href="{% url  'down_task_list_csv' %}" class="btn btn-outline-success float-end">Download CSV/Excel</a>
+         </div>
+      </div>
+
+   </div>
+   <div class="card-body">
+      <form>
+         <div class="row align-items-center g-3">
+            <div class="col-auto">
+               <label class="visually-hidden" for="inputEmail">Customer Name</label>
+               <input type="search" class="form-control" id="customer_name" name="customer_name"
+                  placeholder="Customer Name">
             </div>
-            <div class="col">
-                <a href="{% url  'down_task_list_csv' %}" class="btn btn-outline-success float-end">Download CSV/Excel</a>
+            <div class="col-auto">
+               <label class="visually-hidden" for="work_status">Work Status</label>
+               <select class="form-select" id="work_status" name="work_status">
+                  <option value="">Select Work Status</option>
+                  <option {% if request.GET.work_status == 'pending' %} selected {% endif %}>pending</option>
+                  <option {% if request.GET.work_status == 'completed' %} selected {% endif %}>completed</option>
+               </select>
             </div>
-        </div>
-
-    </div>
-    <div class="card-body">
-        <form>
-            <div class="row align-items-center g-3">
-                <div class="col-auto">
-                    <label class="visually-hidden" for="inputEmail">Customer Name</label>
-                    <input type="search" class="form-control" id="customer_name" name="customer_name" placeholder="Customer Name">
-                </div>
-                <div class="col-auto">
-                    <label class="visually-hidden" for="work_status">Work Status</label>
-                    <select class="form-select" id="work_status" name="work_status">
-                        <option value="">Select Work Status</option>
-                        <option {% if  request.GET.work_status == 'pending' %} selected {% endif %}>pending</option>
-                        <option {% if request.GET.work_status == 'completed' %} selected {% endif %}>completed</option>
-                    </select>
-                </div>
-                <!-- <div class="col-auto">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkRemember">
-                        <label class="form-check-label" for="checkRemember">Remember me</label>
-                    </div>
-                </div> -->
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-                <!-- <div class="col-auto"> -->
-                <!-- </div> -->
+            <div class="col-auto">
+               <label class="visually-hidden" for="amount_status">Amount Status</label>
+               <select class="form-select" id="amount_status" name="amount_status">
+                  <option value="">Select Amount Status</option>
+                  <option {% if request.GET.amount_status == 'pending' %} selected {% endif %}>pending</option>
+                  <option {% if request.GET.amount_status == 'completed' %} selected {% endif %}>completed</option>
+               </select>
             </div>
-        </form>
-        
+            <!-- <div class="col-auto">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="checkRemember">
+                            <label class="form-check-label" for="checkRemember">Remember me</label>
+                        </div>
+                    </div> -->
+            <div class="col-auto">
+               <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+            <!-- <div class="col-auto"> -->
+            <!-- </div> -->
+         </div>
+      </form>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    {% comment %} <th scope="col">#</th> {% endcomment %}
-                    <th scope="col">Date</th>
-                    <th scope="col">Customer Name</th>
-                    <th scope="col">Contact details</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Work status</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Total amount</th>
-                    <th scope="col">Advance amount</th>
-                    <th scope="col">Pending amount</th>
-                    <th scope="col">Remark</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                {% if task.work_status == "pending" %}
-                <tr style="background: red;:">
-                {% else %}
-                <tr>
-                {% endif %}
-                    <th scope="row">{{ task.date }}</th>
-                    <td>{{ task.customer_name }}</td>
-                    <td>{{ task.contact_details }}</td>
-                    <td>{{ task.description }}</td>
-                    <td>{{ task.work_status }}</td>
-                    <td>{{ task.amount_status }}</td>
-                    <td>{{ task.Total_amount }}</td>
-                    <td>{{ task.advance_amount }}</td>
-                    <td>{{ task.pending_amount }}</td>
-                    <td>{{ task.remark }}</td>
-                    <td> <a href="/tasks/edit_task/{{ task.id }}">Edit</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
 
-        <div class="pagination">
-            <span class="step-links">
-                {% if tasks.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ tasks.previous_page_number }}">previous</a>
-                {% endif %}
+      <table class="table">
+         <thead>
+            <tr>
+               {% comment %} <th scope="col">#</th> {% endcomment %}
+               <th scope="col">Date</th>
+               <th scope="col">Customer Name</th>
+               <th scope="col">Contact details</th>
+               <th scope="col">Description</th>
+               <th scope="col">Work status</th>
+               <th scope="col">Amount</th>
+               <th scope="col">Total amount</th>
+               <th scope="col">Advance amount</th>
+               <th scope="col">Pending amount</th>
+               <th scope="col">Remark</th>
+               <th scope="col">Action</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for task in tasks %}
+            {% if task.work_status == "pending" %}
+            <tr style="background: red;:">
+               {% else %}
+            <tr>
+               {% endif %}
+               <th scope="row">{{ task.date }}</th>
+               <td>{{ task.customer_name }}</td>
+               <td>{{ task.contact_details }}</td>
+               <td>{{ task.description }}</td>
+               <td>{{ task.work_status }}</td>
+               <td>{{ task.amount_status }}</td>
+               <td>{{ task.Total_amount }}</td>
+               <td>{{ task.advance_amount }}</td>
+               <td>{{ task.pending_amount }}</td>
+               <td>{{ task.remark }}</td>
+               <td> <a href="/tasks/edit_task/{{ task.id }}">Edit</a></td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
 
-                <span class="current">
-                    Page {{ tasks.number }} of {{ tasks.paginator.num_pages }}.
-                </span>
+      <div class="pagination">
+         <span class="step-links">
+            {% if tasks.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ tasks.previous_page_number }}">previous</a>
+            {% endif %}
 
-                {% if tasks.has_next %}
-                <a href="?page={{ tasks.next_page_number }}">next</a>
-                <a href="?page={{ tasks.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
+            <span class="current">
+               Page {{ tasks.number }} of {{ tasks.paginator.num_pages }}.
             </span>
-        </div>
 
-    </div>
+            {% if tasks.has_next %}
+            <a href="?page={{ tasks.next_page_number }}">next</a>
+            <a href="?page={{ tasks.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+         </span>
+      </div>
+
+   </div>
 </div>
 
 {% endblock %}
