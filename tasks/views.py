@@ -62,6 +62,16 @@ def task_list(request):
     amount_status = request.GET.get("amount_status")
     if amount_status:
         Tasks = Tasks.filter(amount_status=amount_status)
+    
+    start_date = request.GET.get("start_date")
+    if start_date:
+        Tasks = Tasks.filter(date__gte=start_date)
+    end_date = request.GET.get("end_date")
+    if end_date:
+        Tasks = Tasks.filter(date__lte=end_date)
+
+
+
     paginator = Paginator(Tasks, 10)
     tasks = paginator.get_page(page_number)
     context = {
@@ -89,13 +99,22 @@ def download_task_list(request):
     work_status = request.GET.get("work_status")
     if work_status:
         Tasks = Tasks.filter(work_status=work_status)
+
+    start_date = request.GET.get("start_date")
+    if start_date:
+        Tasks = Tasks.filter(date__gte=start_date)
+    end_date = request.GET.get("end_date")
+    if end_date:
+        Tasks = Tasks.filter(date__lte=end_date)
+
+
     # page_number = request.GET.get('page')
     # paginator = Paginator(Tasks, 10)
     # tasks = paginator.get_page(page_number)
 
     writer = csv.writer(response)
-    writer.writerow(["Customer Name", "Description"])
-    tsks = Tasks.values_list("customer_name", "description")
+    writer.writerow(["Date", "Customer Name", "Description"])
+    tsks = Tasks.values_list("date","customer_name", "description")
     for tsk in tsks:
         writer.writerow(tsk)
     return response

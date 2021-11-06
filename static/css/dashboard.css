@@ -100,3 +100,7 @@ body {
 }
 
 .asteriskField{color: red !important;}
+.pending_task_row {
+  background: #6c757d; 
+  color: #fff
+}

@@ -158,4 +158,4 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL =  '/tasks'
+LOGIN_REDIRECT_URL =  '/tasks/?work_status=pending'
