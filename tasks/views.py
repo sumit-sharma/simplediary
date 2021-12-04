@@ -88,7 +88,7 @@ def task_list(request):
 
 
 
-    paginator = Paginator(Tasks, 25)
+    paginator = Paginator(Tasks, per_page=25)
     tasks = paginator.get_page(page_number)
     context = {
         "tasks": tasks,
