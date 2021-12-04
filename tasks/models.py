@@ -30,3 +30,9 @@ class Task(models.Model):
     class Meta:
         db_table = "tasks"
         ordering = ['-id']
+
+    def __str__(self): 
+        return self.customer_name 
+
+    
+    

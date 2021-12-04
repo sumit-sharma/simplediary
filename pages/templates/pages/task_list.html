@@ -31,7 +31,7 @@
                      <span class="h2 mb-0">{{ countPendingWork }}</span>
                   </div>
                   <div class="col-auto">
-                     
+
                   </div>
                </div>
             </div>
@@ -83,7 +83,8 @@
 
          </div>
          <div class="col">
-            <a href="{% url  'down_task_list_csv' %}?{{ request.GET.urlencode }}" class="btn btn-outline-success float-end">Download CSV/Excel</a>
+            <a href="{% url  'down_task_list_csv' %}?{{ request.GET.urlencode }}"
+               class="btn btn-outline-success float-end">Download CSV/Excel</a>
          </div>
       </div>
 
@@ -113,16 +114,18 @@
                </select>
             </div>
             <div class="col-auto flex-shrink-1">
-                <strong>Start Date</strong>
+               <strong>Start Date</strong>
             </div>
             <div class="col-auto">
-               <input type="date" name="start_date" class="dateinput form-control" id="start_date" value="{{ request.GET.start_date }}">
+               <input type="date" name="start_date" class="dateinput form-control" id="start_date"
+                  value="{{ request.GET.start_date }}">
             </div>
             <div class="col-auto flex-shrink-1">
-                <strong>End Date</strong>
+               <strong>End Date</strong>
             </div>
             <div class="col-auto">
-               <input type="date" name="end_date" class="dateinput form-control" id="end_date" value="{{ request.GET.end_date }}">
+               <input type="date" name="end_date" class="dateinput form-control" id="end_date"
+                  value="{{ request.GET.end_date }}">
             </div>
             <div class="col-auto">
                <button type="submit" class="btn btn-primary">Search</button>
@@ -152,14 +155,14 @@
          </thead>
          <tbody>
             {% for task in tasks %}
-               {% if task.work_status == "pending" and task.amount_status == "pending" %}
-                  <tr class="both_pending_task_row">
+            {% if task.work_status == "pending" and task.amount_status == "pending" %}
+            <tr class="both_pending_task_row">
                {% elif task.work_status == "pending" %}
-                  <tr class="pending_task_row">
-               {% elif task.amount_status == "pending"  %}
-                  <tr class="amount_task_row">
+            <tr class="pending_task_row">
+               {% elif task.amount_status == "pending" %}
+            <tr class="amount_task_row">
                {% else %}
-                  <tr>
+            <tr>
                {% endif %}
                <th scope="row">{{ task.date }}</th>
                <td>{{ task.customer_name }}</td>
@@ -171,7 +174,10 @@
                <td>{{ task.advance_amount }}</td>
                <td>{{ task.pending_amount }}</td>
                <td>{{ task.remark }}</td>
-               <td> <a href="/tasks/edit_task/{{ task.id }}">Edit</a></td>
+               <td>
+                  <a href="/tasks/edit_task/{{ task.id }}"><i class="fas fa-pencil-alt"></i></a>
+                  <a class="text-danger pl-auto confirm-delete" href="/tasks/{{ task.id }}/delete/"><i class="fas fa-trash"></i></a>
+               </td>
             </tr>
             {% endfor %}
          </tbody>
@@ -207,15 +213,22 @@
 
 <script>
 
-$(function(){
-   $('input[name="work_date_range"]').daterangepicker({
-    "startDate": "10/31/2021",
-    "endDate": "11/06/2021"
-}, function(start, end, label) {
-  console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-});
+   $(function () {
+      $('input[name="work_date_range"]').daterangepicker({
+         "startDate": "10/31/2021",
+         "endDate": "11/06/2021"
+      }, function (start, end, label) {
+         console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+      });
 
-})
+      $(".confirm-delete").click(function(){
+         var status = confirm("are you sure you want to delete this?")
+         if(status){
+            
+         }
+      });
+
+   })
 
 </script>
 

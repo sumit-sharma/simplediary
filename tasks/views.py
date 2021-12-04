@@ -2,11 +2,12 @@ from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import Task
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import DeleteView, FormView, UpdateView
 from .forms import TaskForm
 import csv
 import time
 from django.db.models import Sum
+from django.urls import reverse_lazy
 
 # from django.urls import reverse
 
@@ -29,7 +30,7 @@ class TaskCreateFormView(FormView):
 
 class TaskUpdateView(UpdateView):
     model = Task
-    template_name = "task_form.html"
+    template_name = "tasks.task_form.html"
     form_class = TaskForm
     success_url = "/tasks"
     extra_context = {"pageName": "Edit Task"}
@@ -37,6 +38,21 @@ class TaskUpdateView(UpdateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+# @login_required
+class TaskDeleteView(DeleteView):
+    model = Task
+    
+    success_url = "/tasks"
+    # success_url = reverse_lazy('task_list')
+    
+    
+    
+    
+    
+    
+
 
 
 @login_required
@@ -72,7 +88,7 @@ def task_list(request):
 
 
 
-    paginator = Paginator(Tasks, 10)
+    paginator = Paginator(Tasks, 25)
     tasks = paginator.get_page(page_number)
     context = {
         "tasks": tasks,
