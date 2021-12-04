@@ -109,3 +109,8 @@ body {
   background: #029CCA; 
   color: #fff
 }
+
+.both_pending_task_row {
+  background: #FFA500; 
+  color: #fff
+}

@@ -151,14 +151,16 @@
             </tr>
          </thead>
          <tbody>
-            {% for task in tasks %}
-            {% if task.work_status == "pending" %}
+         {% for task in tasks %}
+            {% if task.work_status == "pending" and task.work_status == "pending" %}
+            <tr class="both_pending_task_row">
+            {% elif task.work_status == "pending" %}
             <tr class="pending_task_row">
             {% elif task.amount_status == "pending"  %}
             <tr class="amount_task_row">
             {% else %}
             <tr>
-            {% endif %}
+         {% endif %}
                <th scope="row">{{ task.date }}</th>
                <td>{{ task.customer_name }}</td>
                <td>{{ task.contact_details }}</td>
