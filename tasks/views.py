@@ -30,7 +30,7 @@ class TaskCreateFormView(FormView):
 
 class TaskUpdateView(UpdateView):
     model = Task
-    template_name = "tasks.task_form.html"
+    template_name = "task_form.html"
     form_class = TaskForm
     success_url = "/tasks"
     extra_context = {"pageName": "Edit Task"}
