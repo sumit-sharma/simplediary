@@ -129,8 +129,8 @@ def download_task_list(request):
     # tasks = paginator.get_page(page_number)
 
     writer = csv.writer(response)
-    writer.writerow(["Date", "Customer Name", "Description"])
-    tsks = Tasks.values_list("date","customer_name", "description")
+    writer.writerow(["Date", "Customer Name", "Contact Details", "Description", "Work status", "Amount", "Total amount", "Advance amount", "Pending amount", "Remark"])
+    tsks = Tasks.values_list("date","customer_name", "contact_details", "description", "work_status", "amount_status", "total_amount", "advance_amount", "pending_amount", "remark")
     for tsk in tsks:
         writer.writerow(tsk)
     return response
