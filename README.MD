@@ -6,4 +6,10 @@ This is just a basic implementation djang-admin. It will be consists of 2 apps
 
 Django-admin is being used for saving time and effort. Both users will only see their respective only.
 
-
+---
+** NOTE **
+PUT .env in simplediary/simplediary
+---
+```
+touch simplediary/simplediary/.env
+```

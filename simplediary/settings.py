@@ -11,6 +11,16 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +35,15 @@ SECRET_KEY = 'django-insecure-h9uj#c^o)o^(0n%-zq*9b9*@5&s!=u&mg(6ikoz8f$v3fe0=cz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'tasks.apps.TasksConfig',
+    'lend.apps.LendConfig',
+    'pages.apps.PagesConfig',
     'petroleum.apps.PetroleumConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +93,10 @@ WSGI_APPLICATION = 'simplediary.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'saifuel_db',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
+        'HOST': env('DATABASE_HOST'),
         'PORT': '3306',
     }
 }
@@ -124,7 +140,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Add these new lines
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL =  '/tasks/?work_status=pending'
