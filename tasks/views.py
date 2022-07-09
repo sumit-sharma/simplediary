@@ -64,7 +64,7 @@ def task_list(request):
     # count total pending taks
     count_pending_work = Tasks.filter(work_status="pending").count()
     # sum of pending task amount
-    total_pending_amount = Tasks.aggregate(
+    total_pending_amount = Tasks.filter(work_status="pending").aggregate(
         Sum("pending_amount")
     )
     # count total pending taks
